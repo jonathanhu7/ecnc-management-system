@@ -7,3 +7,14 @@ from pydantic import (
 class Token(BaseModel):
     access_token: str
     token_type: str
+
+
+class UserSchemaBase(BaseModel):
+    netid: str
+    name: str
+    role: str
+
+
+# 定义创建用户的请求体
+class CreateUserRequest(UserSchemaBase):
+    password: str

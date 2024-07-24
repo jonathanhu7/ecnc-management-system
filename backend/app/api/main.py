@@ -1,8 +1,7 @@
 from fastapi import FastAPI
 
-from app.core.config import settings
+from app.api.router import auth, users
 from app.core.database import Base, engine
-from app.api.router import auth
 
 app = FastAPI()
 
@@ -11,9 +10,5 @@ app = FastAPI()
 Base.metadata.create_all(bind=engine)
 
 # 添加路由
-# app.include_router(auth.router)
-
-
-@app.get("/")
-def read_settings():
-    return {"POSTGRES_PASSWORD": settings.POSTGRES_PASSWORD}
+app.include_router(auth.router)
+app.include_router(users.router)
