@@ -1,5 +1,5 @@
 export interface User {
-  netid: string;
+  username: string;
   name: string;
   role: string;
 }

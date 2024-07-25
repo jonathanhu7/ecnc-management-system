@@ -1,64 +1,36 @@
-import axios from "axios";
-import { useMutation, useQueryClient } from "react-query";
-import qs from "qs";
-
-// 定义登录请求的类型
-export interface LoginRequest {
-  username: string;
-  password: string;
-}
-
-// 定义登录响应的类型
-interface LoginResponse {
-  access_token: string;
-}
+import { useState } from "react";
+import { useMutation } from "react-query";
+import AuthService, {
+  LoginRequest,
+  LoginResponse,
+} from "../services/AuthService";
+import { User } from "../types/User";
+import { AxiosError } from "axios";
+import { ErrorResponse } from "../api/axiosInstance";
 
 // 创建一个自定义钩子，用于处理用户登录和登出
 export const useAuth = () => {
-  const queryClient = useQueryClient();
+  const [authError, setAuthError] = useState<string | null>(null); // authError 用来记录在 auth 中发生的错误
+  const [currentUser, setCurrentUser] = useState<User | null>(null); // currentUser 用来记录当前用户
 
-  // 定义登录的 mutation
-  const loginMutation = useMutation(
-    async (data: LoginRequest) => {
-      const response = await axios.post<LoginResponse>(
-        "http://localhost:8000/auth/token",
-        // qs 用于将 JS 对象转换为 URL 查询字符串格式
-        qs.stringify({
-          grant_type: "password",
-          username: data.username,
-          password: data.password,
-        }),
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        }
-      );
-      return response.data;
+  // 登录
+  const loginMutation = useMutation<LoginResponse, AxiosError, LoginRequest>({
+    mutationFn: (data: LoginRequest) => AuthService.login(data),
+    onSuccess: (data: LoginResponse) => {
+      setCurrentUser(data.user);
+      localStorage.setItem("accessToken", data.access_token);
     },
-    {
-      onSuccess: (data) => {
-        // 将 token 存储在本地存储中
-        localStorage.setItem("token", data.access_token);
-        // 可以在这里触发任何其他的状态更新或导航逻辑
-        console.log("登录成功");
-      },
-      onError: (error) => {
-        // 处理登录错误
-        console.error("登录失败", error);
-      },
-    }
-  );
+    onError: (error: AxiosError) => {
+      const ErrorResponse = error.response?.data as ErrorResponse;
+      setAuthError(ErrorResponse.detail);
+    },
+  });
 
-  // 定义登出的函数
-  const logout = () => {
-    localStorage.removeItem("token");
-    queryClient.clear();
-    console.log("登出成功");
+  const login = async (data: LoginRequest) => {
+    setAuthError(null); // 清空错误信息，如果 loginMutation 发生错误，会填充如错误信息
+
+    await loginMutation.mutateAsync(data);
   };
 
-  return {
-    login: loginMutation.mutate,
-    logout,
-  };
+  return { authError, currentUser, login };
 };
