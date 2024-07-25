@@ -17,14 +17,14 @@ async def create_user(
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="无权访问")
 
     new_user = Users(
-        netid=user_request.netid,
+        username=user_request.username,
         hashed_password=hash_password(user_request.password),
         name=user_request.name,
         role=user_request.role,
     )
 
     # 查找一下有没有相同 netid 的用户，如果有，则应该创建失败
-    existing_user = db.query(Users).filter(Users.netid == new_user.netid).first()
+    existing_user = db.query(Users).filter(Users.username == new_user.username).first()
 
     if existing_user is not None:
         raise HTTPException(

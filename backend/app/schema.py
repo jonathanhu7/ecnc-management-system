@@ -10,7 +10,7 @@ class Token(BaseModel):
 
 
 class UserSchemaBase(BaseModel):
-    netid: str
+    username: str
     name: str
     role: str
 

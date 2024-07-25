@@ -21,7 +21,7 @@ async def login_for_access_token(
 ):
     # 如果验证成功，则会返回用户，否则返回 None
     user = authenticate_user(
-        netid=form_data.username, password=form_data.password, db=db
+        username=form_data.username, password=form_data.password, db=db
     )
 
     if not user:
@@ -29,7 +29,7 @@ async def login_for_access_token(
 
     # 生成 token
     token = create_access_token(
-        user.netid,
+        user.username,
         user.name,
         user.role,
         timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),

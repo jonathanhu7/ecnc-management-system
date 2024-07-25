@@ -34,8 +34,8 @@ def hash_password(password: str) -> str:
 
 
 # 验证用户
-def authenticate_user(netid: str, password: str, db: db_dependency) -> Users | None:
-    user = db.query(Users).filter(Users.netid == netid).first()
+def authenticate_user(username: str, password: str, db: db_dependency) -> Users | None:
+    user = db.query(Users).filter(Users.username == username).first()
 
     if not user:
         return None  # 用户不存在
@@ -48,9 +48,9 @@ def authenticate_user(netid: str, password: str, db: db_dependency) -> Users | N
 
 # 生成 token
 def create_access_token(
-    netid: str, name: str, role: str, expires_delta: timedelta
+    username: str, name: str, role: str, expires_delta: timedelta
 ) -> str:
-    encode = {"netid": netid, "name": name, "role": role}  # payload
+    encode = {"username": username, "name": name, "role": role}  # payload
     expires = datetime.now(timezone.utc) + expires_delta  # token 过期时间
     encode.update(
         {"expires": expires.isoformat()}
@@ -64,16 +64,16 @@ def create_access_token(
 def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]) -> dict:
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        netid: str = payload.get("netid")
+        username: str = payload.get("username")
         name: str = payload.get("name")
         role: str = payload.get("role")
 
-        if netid is None or name is None or role is None:
+        if username is None or name is None or role is None:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED, detail="用户未登录"
             )
 
-        return {"netid": netid, "name": name, "role": role}
+        return {"username": username, "name": name, "role": role}
 
     except JWTError:
         raise HTTPException(
