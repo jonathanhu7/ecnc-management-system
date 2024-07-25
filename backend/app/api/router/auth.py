@@ -25,7 +25,9 @@ async def login_for_access_token(
     )
 
     if not user:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)  # 验证失败
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="用户名不存在或密码错误"
+        )  # 验证失败
 
     # 生成 token
     token = create_access_token(
