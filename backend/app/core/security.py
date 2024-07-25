@@ -23,9 +23,9 @@ bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 # oauth2_bearer 用来用于处理 OAuth2 的授权
-#   tokenUrl='auth/token' 指定获取 token 的 url
+#   tokenUrl='auth/login' 指定获取 token 的 url
 #   该 api 具体实现在 login_for_access_token 函数
-oauth2_bearer = OAuth2PasswordBearer(tokenUrl="auth/token")
+oauth2_bearer = OAuth2PasswordBearer(tokenUrl="auth/login")
 
 
 # 对密码进行哈希

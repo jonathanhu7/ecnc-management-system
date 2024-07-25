@@ -7,14 +7,14 @@ from fastapi.security import OAuth2PasswordRequestForm
 from app.core.config import settings
 from app.core.database import db_dependency
 from app.core.security import authenticate_user, create_access_token
-from app.schema import Token
+from app.schema import TokenResponse
 
 # 路由设置
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 
 # API: 登录获取 token
-@router.post("/token", response_model=Token)
+@router.post("/login", response_model=TokenResponse)
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     db: db_dependency,
@@ -35,4 +35,9 @@ async def login_for_access_token(
         timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
     )
 
-    return {"access_token": token, "token_type": "bearer"}
+    return {
+        "access_token": token,
+        "token_type": "bearer",
+        "user": {"username": user.username, "name": user.name, "role": user.role},
+        "expires_in": settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+    }

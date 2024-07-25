@@ -4,9 +4,11 @@ from pydantic import (
 
 
 # 定义 token 类型
-class Token(BaseModel):
+class TokenResponse(BaseModel):
     access_token: str
     token_type: str
+    user: dict
+    expires_in: int
 
 
 class UserSchemaBase(BaseModel):
