@@ -7,7 +7,7 @@ const UserInfoCard = () => {
   console.log(currentUser);
 
   return (
-    <Flex alignItems="center" borderTop="1px" pt={5} borderColor="gray.400">
+    <Flex alignItems="center" borderTop="1px" pt={8} borderColor="gray.400">
       <Image src={Avatar} borderRadius="full" boxSize="50px" />
       <Box ml={3}>
         <Heading fontSize="25px">{currentUser?.name}</Heading>
