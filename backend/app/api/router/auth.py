@@ -6,8 +6,8 @@ from fastapi.security import OAuth2PasswordRequestForm
 
 from app.core.config import settings
 from app.core.database import db_dependency
-from app.core.security import authenticate_user, create_access_token
-from app.schema import TokenResponse
+from app.core.security import authenticate_user, create_access_token, user_dependency
+from app.schema import TokenResponse, UserResponse
 
 # 路由设置
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -43,3 +43,9 @@ async def login_for_access_token(
         "user": {"username": user.username, "name": user.name, "role": user.role},
         "expires_in": settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
     }
+
+
+# API: 获取当前用户信息
+@router.get("/me", response_model=UserResponse)
+async def get_current_user_info(current_user: user_dependency):
+    return current_user

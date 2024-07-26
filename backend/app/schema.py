@@ -11,12 +11,16 @@ class TokenResponse(BaseModel):
     expires_in: int
 
 
-class UserSchemaBase(BaseModel):
+class UserBase(BaseModel):
     username: str
     name: str
     role: str
 
 
+class UserResponse(UserBase):
+    pass
+
+
 # 定义创建用户的请求体
-class CreateUserRequest(UserSchemaBase):
+class CreateUserRequest(UserBase):
     password: str

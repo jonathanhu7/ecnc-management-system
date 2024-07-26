@@ -61,7 +61,9 @@ def create_access_token(
 # 获取当前用户信息
 # get_current_user 类似于 get_db，都是作为依赖注入函数
 # 其中输入的 token 会调用 oauth2_bearer 来获取，而 oauth2_bearer 会再调用 login_for_access_token 函数来获取 token
-def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]) -> dict:
+def get_current_user(
+    token: Annotated[str, Depends(oauth2_bearer)], db: db_dependency
+) -> Users:
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("username")
@@ -73,7 +75,14 @@ def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]) -> dict:
                 status_code=status.HTTP_401_UNAUTHORIZED, detail="用户未登录"
             )
 
-        return {"username": username, "name": name, "role": role}
+        user = db.query(Users).filter(Users.username == username).first()
+
+        if user is None:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED, detail="用户未登录"
+            )
+
+        return user
 
     except JWTError:
         raise HTTPException(
