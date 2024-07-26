@@ -22,6 +22,11 @@ class AuthService {
     );
     return response.data;
   }
+
+  public async getCurrentUser(): Promise<User> {
+    const response = await axiosInstance.get<User>("/auth/me");
+    return response.data;
+  }
 }
 
 export default new AuthService();

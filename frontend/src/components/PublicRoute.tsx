@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { Navigate } from "react-router-dom";
 
@@ -7,9 +7,9 @@ interface Props {
 }
 
 const PublicRoute = ({ children }: Props) => {
-  const { currentUser } = useAuth();
+  const { isLoggedIn } = useAuth();
 
-  if (currentUser) {
+  if (isLoggedIn()) {
     // replace 表示替代浏览记录，这样用户点击后退的时候会不会回到之前的页面
     return <Navigate to="/" replace />;
   }

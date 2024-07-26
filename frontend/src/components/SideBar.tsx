@@ -1,4 +1,4 @@
-import { Box, Flex, Image, Spacer } from "@chakra-ui/react";
+import { Flex, Image, Spacer } from "@chakra-ui/react";
 import Logo from "../assets/fastapi-logo.svg";
 import { navItems } from "../routes";
 import SidebarItems from "./SideBarItems";
