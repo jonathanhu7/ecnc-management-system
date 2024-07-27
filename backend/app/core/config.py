@@ -4,7 +4,9 @@ from pydantic import computed_field, PostgresDsn
 
 # 配置
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file="../.env")  # 指定环境变量文件的位置
+    model_config = SettingsConfigDict(
+        env_file=".env"
+    )  # 指定环境变量文件的位置（以项目目录为当前工作目录）
 
     # token
     SECRET_KEY: str
