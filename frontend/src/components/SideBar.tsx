@@ -1,8 +1,9 @@
 import { Flex, Image, Spacer } from "@chakra-ui/react";
 import Logo from "../assets/fastapi-logo.svg";
 import { navItems } from "../routes";
-import SidebarItems from "./SideBarItems";
+import SidebarItem from "./SideBarItem";
 import UserInfoCard from "./UserInfoCard";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
@@ -15,14 +16,14 @@ const Sidebar = () => {
       border="1px"
       borderColor="gray.200"
     >
-      <Image src={Logo} maxW="3xs" alignSelf="center" mt={8} />
+      <Link to={"/"}>
+        <Image src={Logo} maxW="3xs" alignSelf="center" mt={8} />
+      </Link>
       <Flex flexDirection="column" alignItems="left" mt={14} ml={7}>
         {navItems.map((item) => (
-          <SidebarItems
-            key={item.id}
-            reactIcon={item.icon}
-            navText={item.text}
-          />
+          <Link to={`/${item.url}`} key={item.id}>
+            <SidebarItem reactIcon={item.icon} navText={item.text} />
+          </Link>
         ))}
       </Flex>
       <Spacer />

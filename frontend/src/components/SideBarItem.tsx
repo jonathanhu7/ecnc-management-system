@@ -6,7 +6,7 @@ interface Props {
   navText: string;
 }
 
-const SidebarItems = ({ reactIcon, navText }: Props) => {
+const SidebarItem = ({ reactIcon, navText }: Props) => {
   return (
     <Flex alignItems="center" mb={5}>
       <Icon as={reactIcon} boxSize={5} mr={2}></Icon>
@@ -15,4 +15,4 @@ const SidebarItems = ({ reactIcon, navText }: Props) => {
   );
 };
 
-export default SidebarItems;
+export default SidebarItem;
