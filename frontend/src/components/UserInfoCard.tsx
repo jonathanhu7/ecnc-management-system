@@ -1,21 +1,39 @@
-import { Box, Flex, Heading, Image, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Image,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItem,
+  MenuList,
+  Text,
+} from "@chakra-ui/react";
 import Avatar from "../assets/avatar.jpg";
 import { useAuth } from "../hooks/useAuth";
 
 const UserInfoCard = () => {
-  const { currentUser } = useAuth();
-  console.log(currentUser);
+  const { currentUser, logout } = useAuth();
 
   return (
-    <Flex alignItems="center" borderTop="1px" pt={8} borderColor="gray.400">
-      <Image src={Avatar} borderRadius="full" boxSize="50px" />
-      <Box ml={3}>
-        <Heading fontSize="25px">{currentUser?.name}</Heading>
-        <Text textColor="gray.500">
-          {currentUser?.username} ({currentUser?.role})
-        </Text>
-      </Box>
-    </Flex>
+    <Menu>
+      <MenuButton>
+        <Flex alignItems="center" borderTop="1px" pt={5} borderColor="gray.400">
+          <Image src={Avatar} borderRadius="full" boxSize="45px" />
+          <Box ml={3} textAlign="left">
+            <Heading fontSize="20px">{currentUser?.name}</Heading>
+            <Text textColor="gray.500">
+              {currentUser?.username} ({currentUser?.role})
+            </Text>
+          </Box>
+        </Flex>
+      </MenuButton>
+      <MenuList>
+        <MenuItem onClick={logout}>登出</MenuItem>
+      </MenuList>
+    </Menu>
   );
 };
 

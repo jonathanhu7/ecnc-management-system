@@ -34,7 +34,7 @@ export const useAuth = () => {
       localStorage.setItem("accessToken", data.access_token);
       queryClient.invalidateQueries({ queryKey: ["currentUser"] }); // 使当前用户信息失效以便重新获取
       refetchCurrentUser(); // 手动重新获取当前用户信息
-      navigate("/"); // 登录成功后跳转到主页
+      navigate("/", { replace: true }); // 登录成功后跳转到主页
     },
     onError: (error: AxiosError) => {
       const ErrorResponse = error.response?.data as ErrorResponse;
@@ -48,5 +48,12 @@ export const useAuth = () => {
     await loginMutation.mutateAsync(data);
   };
 
-  return { authError, currentUser, login, isLoggedIn };
+  // 登出
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    queryClient.setQueryData(["currentUser"], null);
+    navigate("/login", { replace: true });
+  };
+
+  return { authError, currentUser, login, isLoggedIn, logout };
 };
