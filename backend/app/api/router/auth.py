@@ -33,14 +33,18 @@ async def login_for_access_token(
     token = create_access_token(
         user.username,
         user.name,
-        user.role,
+        user.privilege,
         timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
     )
 
     return {
         "access_token": token,
         "token_type": "bearer",
-        "user": {"username": user.username, "name": user.name, "role": user.role},
+        "user": {
+            "username": user.username,
+            "name": user.name,
+            "privilege": user.privilege,
+        },
         "expires_in": settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
     }
 

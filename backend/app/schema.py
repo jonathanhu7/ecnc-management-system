@@ -14,7 +14,7 @@ class TokenResponse(BaseModel):
 class UserBase(BaseModel):
     username: str
     name: str
-    role: str
+    privilege: int
 
 
 class UserResponse(UserBase):

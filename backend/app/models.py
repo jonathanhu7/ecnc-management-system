@@ -9,4 +9,4 @@ class Users(Base):
     username = Column(String, nullable=False)
     hashed_password = Column(String, nullable=False)
     name = Column(String, nullable=False)
-    role = Column(String, nullable=False)
+    privilege = Column(Integer, nullable=False)

@@ -48,9 +48,9 @@ def authenticate_user(username: str, password: str, db: db_dependency) -> Users 
 
 # 生成 token
 def create_access_token(
-    username: str, name: str, role: str, expires_delta: timedelta
+    username: str, name: str, privilege: int, expires_delta: timedelta
 ) -> str:
-    encode = {"username": username, "name": name, "role": role}  # payload
+    encode = {"username": username, "name": name, "privilege": privilege}  # payload
     expires = datetime.now(timezone.utc) + expires_delta  # token 过期时间
     encode.update(
         {"expires": expires.isoformat()}
@@ -68,9 +68,9 @@ def get_current_user(
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("username")
         name: str = payload.get("name")
-        role: str = payload.get("role")
+        privilege: str = payload.get("privilege")
 
-        if username is None or name is None or role is None:
+        if username is None or name is None or privilege is None:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED, detail="用户未登录"
             )
