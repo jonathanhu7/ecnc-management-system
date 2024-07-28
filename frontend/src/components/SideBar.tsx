@@ -4,8 +4,11 @@ import { navItems } from "../routes";
 import SidebarItem from "./SideBarItem";
 import UserInfoCard from "./UserInfoCard";
 import { Link } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 const Sidebar = () => {
+  const { currentUser } = useAuth();
+
   return (
     <Flex
       flexDirection="column"
@@ -20,11 +23,13 @@ const Sidebar = () => {
         <Image src={Logo} maxW="3xs" alignSelf="center" mt={8} />
       </Link>
       <Flex flexDirection="column" alignItems="left" mt={14} ml={7}>
-        {navItems.map((item) => (
-          <Link to={`/${item.url}`} key={item.id}>
-            <SidebarItem reactIcon={item.icon} navText={item.text} />
-          </Link>
-        ))}
+        {navItems.map((item) =>
+          currentUser && currentUser.privilege >= item.privilegeRequire ? (
+            <Link to={`/${item.url}`} key={item.id}>
+              <SidebarItem reactIcon={item.icon} navText={item.text} />
+            </Link>
+          ) : null
+        )}
       </Flex>
       <Spacer />
       <UserInfoCard />

@@ -18,6 +18,8 @@ import LeavePage from "./pages/LeavePage";
 import PinchHitPage from "./pages/PinchHitPage";
 import LookUpSalarayPage from "./pages/LookUpSalarayPage";
 import HomePage from "./pages/HomePage";
+import SeniorAssistantRoute from "./components/SeniorAssistantRoute";
+import BlackCoreRoute from "./components/BlackCoreRoute";
 
 export const navItems = [
   {
@@ -25,6 +27,7 @@ export const navItems = [
     text: "查看班表",
     icon: RxDashboard,
     url: "look-up-schedule",
+    privilegeRequire: 1,
     element: <LookUpSchedule />,
   },
   {
@@ -32,6 +35,7 @@ export const navItems = [
     text: "提交班表",
     icon: RxTable,
     url: "submit-free-time",
+    privilegeRequire: 1,
     element: <SubmitFreeTimePage />,
   },
   {
@@ -39,20 +43,31 @@ export const navItems = [
     text: "排班",
     icon: TbPencil,
     url: "schedule",
-    element: <SchedulePage />,
+    privilegeRequire: 3,
+    element: (
+      <BlackCoreRoute>
+        <SchedulePage />
+      </BlackCoreRoute>
+    ),
   },
   {
     id: 4,
     text: "考勤",
     icon: BsPerson,
     url: "checking-in",
-    element: <CheckingInPage />,
+    privilegeRequire: 2,
+    element: (
+      <SeniorAssistantRoute>
+        <CheckingInPage />
+      </SeniorAssistantRoute>
+    ),
   },
   {
     id: 5,
     text: "请假",
     icon: PiHandsPraying,
     url: "leave",
+    privilegeRequire: 1,
     element: <LeavePage />,
   },
   {
@@ -60,6 +75,7 @@ export const navItems = [
     text: "代班",
     icon: PiHandWaving,
     url: "pinch-hit",
+    privilegeRequire: 1,
     element: <PinchHitPage />,
   },
   {
@@ -67,6 +83,7 @@ export const navItems = [
     text: "查看工时",
     icon: IoTimeOutline,
     url: "look-up-salary",
+    privilegeRequire: 1,
     element: <LookUpSalarayPage />,
   },
 ];
