@@ -1,18 +1,17 @@
 import {
   Box,
-  Button,
   Flex,
   Heading,
   Image,
   Menu,
   MenuButton,
-  MenuDivider,
   MenuItem,
   MenuList,
   Text,
 } from "@chakra-ui/react";
 import Avatar from "../assets/avatar.jpg";
 import { useAuth } from "../hooks/useAuth";
+import { privilegeRoleTable } from "../types/User";
 
 const UserInfoCard = () => {
   const { currentUser, logout } = useAuth();
@@ -25,7 +24,8 @@ const UserInfoCard = () => {
           <Box ml={3} textAlign="left">
             <Heading fontSize="20px">{currentUser?.name}</Heading>
             <Text textColor="gray.500">
-              {currentUser?.username} ({currentUser?.role})
+              {currentUser?.username} (
+              {currentUser && privilegeRoleTable[currentUser.privilege]})
             </Text>
           </Box>
         </Flex>
