@@ -79,7 +79,7 @@ def get_current_user(
 
         if user is None:
             raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, detail="用户未登录"
+                status_code=status.HTTP_401_UNAUTHORIZED, detail="用户不存在"
             )
 
         return user
@@ -90,4 +90,4 @@ def get_current_user(
         )
 
 
-user_dependency = Annotated[dict, Depends(get_current_user)]
+user_dependency = Annotated[Users, Depends(get_current_user)]

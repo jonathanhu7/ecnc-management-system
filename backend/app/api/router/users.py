@@ -13,7 +13,7 @@ router = APIRouter(tags=["user"])
 async def create_user(
     user_request: CreateUserRequest, db: db_dependency, current_user: user_dependency
 ):
-    if current_user is None or current_user.get("privilege") >= 3:
+    if current_user is None or current_user.privilege < 3:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="无权访问")
 
     new_user = Users(
