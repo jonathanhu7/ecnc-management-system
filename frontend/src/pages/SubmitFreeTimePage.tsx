@@ -1,5 +1,7 @@
+import SubmitFreeTimeForm from "../components/SubmitFreeTimeForm";
+
 const SubmitFreeTimePage = () => {
-  return <div>SubmitFreeTimePage</div>;
+  return <SubmitFreeTimeForm />;
 };
 
 export default SubmitFreeTimePage;

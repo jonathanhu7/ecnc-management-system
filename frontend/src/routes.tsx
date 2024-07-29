@@ -32,7 +32,7 @@ export const navItems = [
   },
   {
     id: 2,
-    text: "提交班表",
+    text: "提交空闲时间",
     icon: RxTable,
     url: "submit-free-time",
     privilegeRequire: 1,
