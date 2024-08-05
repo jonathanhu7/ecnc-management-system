@@ -11,6 +11,8 @@ go run ./cmd/app
 - cmd: 用来存放应用程序的入口点。
 - config: 用来存放读取配置文件的代码。
 - internal: 一种特殊的文件夹，用来限制包的访问范围，其中的代码不能被模块外的代码导入，主要用于封装和隐藏实现细节。
-  - handler: 通常包含处理 HTTP 请求的逻辑。
+  - handler: 包含处理 HTTP 请求的逻辑。
+  - model: 包含数据模型。
   - repository: 用于与数据库进行交互。
   - router: 负责与应用程序的路由。
+  - service: 负责处理业务逻辑。
