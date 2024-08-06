@@ -15,6 +15,7 @@ func CreateUser(user *model.User) error {
 	hashedPassword, err := hashPassword(user.Password)
 
 	if err != nil {
+		log.Printf("用户管理: 创建用户时发生了错误，错误为 %v", err)
 		return err
 	}
 
@@ -22,6 +23,7 @@ func CreateUser(user *model.User) error {
 	user.Password = hashedPassword
 
 	// 调用 repository 中的函数创建用户
+	log.Printf("用户管理: 创建用户名为 %s 的用户成功", user.Username)
 	return repository.CreateUser(user)
 }
 
@@ -38,12 +40,17 @@ func hashPassword(password string) (string, error) {
 
 // 创建超级用户（仅在用户表为空时被调用）
 func CreateSuperUser() error {
-	password := generateRandomPassword(12)
+	plain_password := generateRandomPassword(12)
+	hashed_password, err := hashPassword(plain_password)
+
+	if err != nil {
+		log.Fatalf("创建超级用户时，对随机密码进行哈希时发生错误: %v", err)
+	}
 
 	user := model.User{
 		Username: "admin",
 		Name:     "管理员",
-		Password: password,
+		Password: hashed_password,
 		Priority: 3,
 	}
 
@@ -54,7 +61,7 @@ func CreateSuperUser() error {
 	log.Printf("检测到用户数据表为空，故初始化第一个超级用户，该超级用户的信息仅会显示一次。\n")
 	log.Printf("\t用户名: %s\n", user.Username)
 	log.Printf("\t姓名: %s\n", user.Name)
-	log.Printf("\t密码: %s\n", user.Password)
+	log.Printf("\t密码: %s\n", plain_password)
 	log.Printf("\t权限等级: %d\n", user.Priority)
 
 	return nil

@@ -1,6 +1,8 @@
 package repository
 
-import "backend/internal/model"
+import (
+	"backend/internal/model"
+)
 
 // 创建用户
 func CreateUser(user *model.User) error {
