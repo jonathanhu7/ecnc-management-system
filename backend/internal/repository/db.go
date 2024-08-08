@@ -45,6 +45,7 @@ func InitDB() {
 
 	// 使用 GORM 自动迁移数据库中的表结构
 	// 如果表结构不存在，GORM 将创建表；如果表结构已经存在但与模型不匹配，GORM 将更新表结构以匹配模型定义
+	// GORM 默认使用模型的结构体名称的小写的复数形式作为数据库表的名称，这个是 GORM 的命名约定
 	err = db.AutoMigrate(&model.User{})
 	if err != nil {
 		log.Fatalf("迁移数据库的时候发生了错误: %v", err)

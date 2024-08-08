@@ -29,13 +29,13 @@ func Authenticate(username, password string) (*model.User, string, error) {
 
 	if err != nil {
 		// 即使此时我们能够判断出用户不存在，也不应该返回这个信息，因为这样会给攻击者提供一个检测用户名是否存在的接口
-		log.Printf("登陆验证: 获取用户名为 %s 的用户失败，该用户不存在", username)
+		log.Printf("登录验证: 获取用户名为 %s 的用户失败，该用户不存在", username)
 		return nil, "", &AuthError{Message: "用户名或密码错误"}
 	}
 
 	// 检查密码是否正确
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
-		log.Printf("登陆验证: 用户名为 %s 的用户密码错误", username)
+		log.Printf("登录验证: 用户名为 %s 的用户密码错误", username)
 		return nil, "", &AuthError{Message: "用户名或密码错误"}
 	}
 
@@ -43,12 +43,12 @@ func Authenticate(username, password string) (*model.User, string, error) {
 	token, err := createJWT(user)
 
 	if err != nil {
-		log.Printf("登陆验证: 创建 JWT 失败，错误为 %v", err)
+		log.Printf("登录验证: 创建 JWT 失败，错误为 %v", err)
 		return nil, "", err
 	}
 
 	// 返回用户信息和 token
-	log.Printf("登陆验证: 用户名为 %s 的用户登陆成功", username)
+	log.Printf("登录验证: 用户名为 %s 的用户登录成功", username)
 	return user, token, nil
 }
 

@@ -11,7 +11,7 @@ type LoginRequest struct {
 	Password string `json:"password"`
 }
 
-// 登陆
+// 登录
 func Login(c *fiber.Ctx) error {
 	// 解析请求体
 	req := new(LoginRequest)
@@ -43,5 +43,5 @@ func Login(c *fiber.Ctx) error {
 	}
 
 	// 返回成功响应
-	return responseWithSuccessOK(c, "登陆成功", fiber.Map{"token": token, "user": UserResponse})
+	return responseWithSuccessOK(c, "登录成功", fiber.Map{"token": token, "user": UserResponse})
 }
