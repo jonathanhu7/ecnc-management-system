@@ -36,7 +36,6 @@ func Login(c *fiber.Ctx) error {
 
 	// 创建 UserResponse 实例，使其不包含密码字段
 	UserResponse := UserResponse{
-		ID:       user.ID,
 		Username: user.Username,
 		Name:     user.Name,
 		Priority: user.Priority,

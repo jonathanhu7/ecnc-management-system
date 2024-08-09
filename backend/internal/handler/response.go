@@ -3,7 +3,6 @@ package handler
 import "github.com/gofiber/fiber/v2"
 
 type UserResponse struct {
-	ID       uint   `json:"id"`
 	Username string `json:"username"`
 	Name     string `json:"name"`
 	Priority uint   `json:"priority"`
